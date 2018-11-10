@@ -85,11 +85,11 @@ class Train():
         for step in range(self.num_steps):
             start=time.time()
             #sess.run(update)
-            _,loss_,focal_loss_,pull_loss_,push_loss_,offset_loss_=sess.run([train_op,loss,focal_loss,pull_loss,push_loss,offset_loss])
+            _,loss_,focal_loss_,pull_loss_,push_loss_,offset_loss_,lr_=sess.run([train_op,loss,focal_loss,pull_loss,push_loss,offset_loss,lr])
             duration=time.time()-start
 
             print('step %d, loss %g, focal_loss %g, pull_loss %g, push_loss %g, offset_loss %g, time %g, lr %g'
-                %(step,loss_,focal_loss_,pull_loss_,push_loss_,offset_loss_,duration,self.lr))
+                %(step,loss_,focal_loss_,pull_loss_,push_loss_,offset_loss_,duration,lr_))
 
             if step%100==0:
                 dets_,images_,debug_boxes_,boxes_,ratio_=sess.run([dets_tensor,images,debug_boxes,boxes,ratio])
