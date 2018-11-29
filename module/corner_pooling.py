@@ -16,7 +16,7 @@ def TopPool(inputs):
         _,out = tf.while_loop(cond, body, [i,out],shape_invariants= [i.get_shape(), tf.TensorShape([batch,None,w,c])])
         return out
     #backward
-    def backword(inputs,dy):
+    def backward(inputs,dy):
         zeros=tf.expand_dims(tf.zeros_like(inputs[:,-1,:,:]),1)
         ones=tf.expand_dims(tf.ones_like(inputs[:,-1,:,:]),1)
         mask=tf.expand_dims(tf.ones_like(inputs[:,-1,:,:]),1)
@@ -35,11 +35,11 @@ def TopPool(inputs):
         return mask*dy
 
     @tf.custom_gradient
-    def clip_grad_layer(x):
+    def new_grad(x):
         def grad(dy):
-            return backword(x,dy)
+            return backward(x,dy)
         return forward(x), grad
-    return clip_grad_layer(inputs)
+    return new_grad(inputs)
 def LeftPool(inputs):
     #forward
     def forward(inputs):
@@ -56,7 +56,7 @@ def LeftPool(inputs):
         _,out = tf.while_loop(cond, body, [i,out],shape_invariants= [i.get_shape(), tf.TensorShape([batch,h,None,c])])
         return out
     #backward
-    def backword(inputs,dy):
+    def backward(inputs,dy):
         zeros=tf.expand_dims(tf.zeros_like(inputs[:,:,-1,:]),2)
         ones=tf.expand_dims(tf.ones_like(inputs[:,:,-1,:]),2)
         mask=tf.expand_dims(tf.ones_like(inputs[:,:,-1,:]),2)
@@ -75,11 +75,11 @@ def LeftPool(inputs):
         return mask*dy
 
     @tf.custom_gradient
-    def clip_grad_layer(x):
+    def new_grad(x):
         def grad(dy):
-            return backword(x,dy)
+            return backward(x,dy)
         return forward(x), grad
-    return clip_grad_layer(inputs)
+    return new_grad(inputs)
 def BottomPool(inputs):
     #forward
     def forward(inputs):
@@ -97,7 +97,7 @@ def BottomPool(inputs):
         _,out = tf.while_loop(cond, body, [i,out],shape_invariants= [i.get_shape(), tf.TensorShape([batch,None,w,c])])
         return out
     #backward
-    def backword(inputs,dy):
+    def backward(inputs,dy):
         zeros=tf.expand_dims(tf.zeros_like(inputs[:,-1,:,:]),1)
         ones=tf.expand_dims(tf.ones_like(inputs[:,-1,:,:]),1)
         mask=tf.expand_dims(tf.ones_like(inputs[:,-1,:,:]),1)
@@ -116,11 +116,11 @@ def BottomPool(inputs):
         return mask*dy
 
     @tf.custom_gradient
-    def clip_grad_layer(x):
+    def new_grad(x):
         def grad(dy):
-            return backword(x,dy)
+            return backward(x,dy)
         return forward(x), grad
-    return clip_grad_layer(inputs)
+    return new_grad(inputs)
 def RightPool(inputs):
     #forward
     def forward(inputs):
@@ -138,7 +138,7 @@ def RightPool(inputs):
         _,out = tf.while_loop(cond, body, [i,out],shape_invariants= [i.get_shape(), tf.TensorShape([batch,h,None,c])])
         return out
     #backward
-    def backword(inputs,dy):
+    def backward(inputs,dy):
         zeros=tf.expand_dims(tf.zeros_like(inputs[:,:,-1,:]),2)
         ones=tf.expand_dims(tf.ones_like(inputs[:,:,-1,:]),2)
         mask=tf.expand_dims(tf.ones_like(inputs[:,:,-1,:]),2)
@@ -157,11 +157,11 @@ def RightPool(inputs):
         return mask*dy
 
     @tf.custom_gradient
-    def clip_grad_layer(x):
+    def new_grad(x):
         def grad(dy):
-            return backword(x,dy)
+            return backward(x,dy)
         return forward(x), grad
-    return clip_grad_layer(inputs)
+    return new_grad(inputs)
 
 
 
