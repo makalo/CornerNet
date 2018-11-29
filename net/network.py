@@ -173,9 +173,9 @@ class NetWork():
         class_br=tf.cast(expand_copy(class_br,k,True),tf.float32)
 
         mask_scores=tf.where(tf.cast(tf.equal(class_tl,class_br),tf.int32)>0,scores,invalid)
-        mask_scores=tf.where(dists<ae_threshold,mask_scores,invalid)
-        mask_scores=tf.where(x_tl<x_br,mask_scores,invalid)
-        mask_scores=tf.where(y_tl<y_br,mask_scores,invalid)
+        mask_scores=tf.where(tf.less(dists,ae_threshold),mask_scores,invalid)
+        mask_scores=tf.where(tf.less(x_tl,x_br),mask_scores,invalid)
+        mask_scores=tf.where(tf.less(y_tl,y_br),mask_scores,invalid)
 
         mask_scores=tf.reshape(mask_scores,(batch,-1))
         scores,indexs=tf.nn.top_k(mask_scores,num_dets)
