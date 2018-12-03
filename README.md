@@ -19,7 +19,7 @@ Our current implementation only supports GPU so you need a GPU and need to have 
 You also need to install the MS COCO APIs.
 ```
 cd <CornetNet dir>/data
-git clone git clone https://github.com/cocodataset/cocoapi.git 
+git clone https://github.com/cocodataset/cocoapi.git 
 cd <CornetNet dir>/data/coco/PythonAPI
 make
 ```
